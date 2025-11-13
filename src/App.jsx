@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Heart, X, Dog, Cat, MapPin, Filter, MessageSquare, Sparkles, Plus, BadgeCheck, Send, Megaphone } from 'lucide-react'
+import { Heart, X, Dog, Cat, MapPin, Filter, MessageSquare, Sparkles, Plus, BadgeCheck, Send, Megaphone, Home } from 'lucide-react'
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'
 
@@ -27,7 +27,7 @@ function Toolbar({ species, setSpecies, onOpenNew, onOpenFilters }) {
         <Pill active={species==='dog'} onClick={()=>setSpecies('dog')}><Dog className="inline h-4 w-4 mr-1"/>Dogs</Pill>
         <Pill active={species==='cat'} onClick={()=>setSpecies('cat')}><Cat className="inline h-4 w-4 mr-1"/>Cats</Pill>
       </div>
-      <div className="flex gap-2">
+      <div className="hidden sm:flex gap-2">
         <button onClick={onOpenFilters} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 text-gray-700"><Filter size={16}/>Filters</button>
         <button onClick={onOpenNew} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white"><Plus size={16}/>Add Pet</button>
       </div>
@@ -60,8 +60,8 @@ function SwipeCard({ pet, onLike, onPass }) {
           ))}
         </div>
         <div className="mt-4 flex items-center justify-center gap-6">
-          <button onClick={onPass} className="h-12 w-12 flex items-center justify-center rounded-full bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"><X/></button>
-          <button onClick={onLike} className="h-14 w-14 flex items-center justify-center rounded-full bg-rose-500 text-white shadow hover:bg-rose-600"><Heart/></button>
+          <button onClick={onPass} className="h-14 w-14 flex items-center justify-center rounded-full bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 active:scale-95"><X/></button>
+          <button onClick={onLike} className="h-16 w-16 flex items-center justify-center rounded-full bg-rose-500 text-white shadow hover:bg-rose-600 active:scale-95"><Heart/></button>
         </div>
       </div>
     </div>
@@ -120,9 +120,9 @@ function ChatDrawer({ open, onClose, match, api }) {
   }
   if (!open) return null
   return (
-    <div className="fixed inset-0 bg-black/30 flex">
-      <div className="ml-auto w-full max-w-md h-full bg-white flex flex-col">
-        <div className="p-4 border-b flex items-center justify-between">
+    <div className="fixed inset-0 bg-black/30 flex sm:items-start sm:justify-end">
+      <div className="ml-auto w-full sm:max-w-md h-full bg-white flex flex-col rounded-none sm:rounded-l-2xl">
+        <div className="p-4 border-b flex items-center justify-between sticky top-0 bg-white z-10">
           <div className="flex items-center gap-2 text-gray-700"><MessageSquare/> Chat</div>
           <button onClick={onClose} className="px-3 py-1 rounded bg-gray-100">Close</button>
         </div>
@@ -131,9 +131,9 @@ function ChatDrawer({ open, onClose, match, api }) {
             <div key={m.id} className="max-w-[80%] rounded-lg px-3 py-2 bg-emerald-50 text-emerald-800">{m.text}</div>
           ))}
         </div>
-        <div className="p-3 border-t flex gap-2">
-          <input value={text} onChange={(e)=>setText(e.target.value)} placeholder="Type a message" className="flex-1 border rounded-lg px-3 py-2"/>
-          <button onClick={send} className="px-3 py-2 rounded-lg bg-emerald-500 text-white flex items-center gap-1"><Send size={16}/>Send</button>
+        <div className="p-3 border-t flex gap-2 sticky bottom-0 bg-white">
+          <input value={text} onChange={(e)=>setText(e.target.value)} placeholder="Type a message" className="flex-1 border rounded-lg px-3 py-3"/>
+          <button onClick={send} className="px-4 py-3 rounded-lg bg-emerald-500 text-white flex items-center gap-1"><Send size={16}/>Send</button>
         </div>
       </div>
     </div>
@@ -145,27 +145,27 @@ function AddPetModal({ open, onClose, onCreate, ownerId, species }) {
   useEffect(()=>{ setForm(f=>({ ...f, species })) }, [species])
   if (!open) return null
   return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center p-4">
-      <div className="w-full max-w-lg bg-white rounded-xl p-5 space-y-3">
+    <div className="fixed inset-0 bg-black/30 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="w-full sm:max-w-lg bg-white rounded-t-2xl sm:rounded-xl p-5 space-y-3">
         <div className="text-lg font-semibold text-gray-800">Add Pet</div>
-        <div className="grid grid-cols-2 gap-3">
-          <input className="border rounded px-3 py-2" placeholder="Name" value={form.name} onChange={e=>setForm({...form, name:e.target.value})}/>
-          <input className="border rounded px-3 py-2" placeholder="Breed" value={form.breed} onChange={e=>setForm({...form, breed:e.target.value})}/>
-          <input className="border rounded px-3 py-2" type="number" placeholder="Age" value={form.age} onChange={e=>setForm({...form, age:Number(e.target.value)})}/>
-          <select className="border rounded px-3 py-2" value={form.gender} onChange={e=>setForm({...form, gender:e.target.value})}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input className="border rounded px-3 py-3" placeholder="Name" value={form.name} onChange={e=>setForm({...form, name:e.target.value})}/>
+          <input className="border rounded px-3 py-3" placeholder="Breed" value={form.breed} onChange={e=>setForm({...form, breed:e.target.value})}/>
+          <input className="border rounded px-3 py-3" type="number" placeholder="Age" value={form.age} onChange={e=>setForm({...form, age:Number(e.target.value)})}/>
+          <select className="border rounded px-3 py-3" value={form.gender} onChange={e=>setForm({...form, gender:e.target.value})}>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
-          <input className="border rounded px-3 py-2 col-span-2" placeholder="City" value={form.city} onChange={e=>setForm({...form, city:e.target.value})}/>
-          <label className="flex items-center gap-2 text-sm col-span-2"><input type="checkbox" checked={form.pedigree} onChange={e=>setForm({...form, pedigree:e.target.checked})}/>Has pedigree</label>
-          <input className="border rounded px-3 py-2 col-span-2" placeholder="Personality (comma separated)" value={form.personality} onChange={e=>setForm({...form, personality:e.target.value})}/>
+          <input className="border rounded px-3 py-3 sm:col-span-2" placeholder="City" value={form.city} onChange={e=>setForm({...form, city:e.target.value})}/>
+          <label className="flex items-center gap-2 text-sm sm:col-span-2"><input type="checkbox" checked={form.pedigree} onChange={e=>setForm({...form, pedigree:e.target.checked})}/>Has pedigree</label>
+          <input className="border rounded px-3 py-3 sm:col-span-2" placeholder="Personality (comma separated)" value={form.personality} onChange={e=>setForm({...form, personality:e.target.value})}/>
         </div>
         <div className="flex justify-end gap-2 pt-2">
-          <button onClick={onClose} className="px-3 py-2 rounded-lg bg-gray-100">Cancel</button>
+          <button onClick={onClose} className="px-3 py-3 rounded-lg bg-gray-100">Cancel</button>
           <button onClick={async ()=>{
             const payload = { ...form, owner_id: ownerId, personality: form.personality.split(',').map(s=>s.trim()).filter(Boolean), photos: [], videos: [], preferences: [] }
             await onCreate(payload)
-          }} className="px-3 py-2 rounded-lg bg-emerald-500 text-white">Create</button>
+          }} className="px-3 py-3 rounded-lg bg-emerald-500 text-white">Create</button>
         </div>
       </div>
     </div>
@@ -196,6 +196,41 @@ function FiltersBar({ filters, setFilters, onApply }) {
   )
 }
 
+function MobileFiltersSheet({ open, onClose, filters, setFilters, onApply }) {
+  if (!open) return null
+  return (
+    <div className="fixed inset-0 bg-black/40 flex items-end">
+      <div className="w-full bg-white rounded-t-2xl p-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="font-semibold text-gray-800">Filters</div>
+          <button onClick={onClose} className="px-3 py-1 rounded bg-gray-100">Close</button>
+        </div>
+        <FiltersBar filters={filters} setFilters={setFilters} onApply={(f)=>{ onApply(f); onClose() }} />
+      </div>
+    </div>
+  )
+}
+
+function BottomNav({ active, setActive, onOpenFilters }) {
+  const item = (key, label, Icon) => (
+    <button onClick={()=>setActive(key)} className={`flex-1 flex flex-col items-center justify-center py-2 ${active===key? 'text-emerald-600':'text-gray-500'}`}>
+      <Icon size={20}/>
+      <span className="text-xs">{label}</span>
+    </button>
+  )
+  return (
+    <div className="sm:hidden fixed bottom-0 inset-x-0 bg-white border-t shadow-sm flex items-center">
+      {item('browse', 'Browse', Home)}
+      {item('matches', 'Matches', Sparkles)}
+      {item('announcements', 'News', Megaphone)}
+      <button onClick={onOpenFilters} className="flex-1 flex flex-col items-center justify-center py-2 text-gray-500">
+        <Filter size={20}/>
+        <span className="text-xs">Filters</span>
+      </button>
+    </div>
+  )
+}
+
 export default function App() {
   const api = useApi()
   const [species, setSpecies] = useState('dog')
@@ -207,6 +242,8 @@ export default function App() {
   const [showAdd, setShowAdd] = useState(false)
   const [showChat, setShowChat] = useState(false)
   const [activeMatch, setActiveMatch] = useState(null)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [tab, setTab] = useState('browse')
 
   // boot: create demo owner if none
   useEffect(()=>{
@@ -216,13 +253,13 @@ export default function App() {
         const res = await api.post('/owners', { name:'Demo Owner', email })
         setOwner({ id: res.id, name:'Demo Owner', email })
       } catch(e) {
-        // try to fetch by a known id? For demo, ignore
+        // ignore for demo
       }
     })()
   }, [])
 
   const loadPets = async (currentFilters=filters, s=species) => {
-    const params = new URLSearchParams({ species: s, ...Object.fromEntries(Object.entries(currentFilters).filter(([,v])=>v!==undefined && v!=='')) })
+    const params = new URLSearchParams({ species: s, ...Object.fromEntries(Object.entries(currentFilters).filter(([,v])=>v!==undefined && v!=='') }) )
     const data = await api.get(`/pets?${params.toString()}`)
     setPets(data)
   }
@@ -235,7 +272,6 @@ export default function App() {
 
   const swipe = async (pet, action) => {
     if (!owner) return
-    // pick owner's first pet if any else use placeholder id
     const myPet = pets.find(p=>p.owner_id===owner?.id) || pets[0]
     if (!myPet) return
     const res = await api.post('/swipe', { liker_pet_id: myPet.id, target_pet_id: pet.id, action, created_by_owner_id: owner.id })
@@ -259,42 +295,96 @@ export default function App() {
     })()
   }, [owner])
 
+  // Derived views for mobile tabs
+  const MobileMatches = () => (
+    <div className="space-y-2">
+      {matches.map(m => (
+        <button key={m.id} onClick={()=>{ setActiveMatch(m); setShowChat(true) }} className="w-full flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-100">
+          <div className="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700">❤</div>
+          <div className="text-left">
+            <div className="font-medium text-gray-800">Match</div>
+            <div className="text-sm text-gray-500">Tap to chat</div>
+          </div>
+        </button>
+      ))}
+      {!matches.length && <div className="text-sm text-gray-500 text-center py-8">No matches yet</div>}
+    </div>
+  )
+
+  const MobileAnnouncements = () => (
+    <div className="space-y-2">
+      {announcements.map(a => (
+        <div key={a.id} className="p-4 rounded-xl bg-white border border-gray-100">
+          <div className="font-medium text-gray-800">{a.title}</div>
+          <div className="text-sm text-gray-500">{a.description}</div>
+        </div>
+      ))}
+      {!announcements.length && <div className="text-sm text-gray-500 text-center py-8">No announcements</div>}
+    </div>
+  )
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-emerald-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-emerald-50 to-blue-50 pb-16 sm:pb-0">
       <div className="max-w-6xl mx-auto p-4 md:p-8">
-        <header className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white"><Dog/></div>
-            <div>
-              <div className="font-semibold text-gray-800">Purebred Pals</div>
-              <div className="text-sm text-gray-500">Find the perfect match for your pet</div>
+        <header className="sticky top-0 z-20 -mx-4 md:mx-0 px-4 md:px-0 py-3 md:py-0 bg-gradient-to-br from-emerald-50 via-emerald-50 to-blue-50">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white"><Dog/></div>
+              <div>
+                <div className="font-semibold text-gray-800">Purebred Pals</div>
+                <div className="text-xs sm:text-sm text-gray-500">Find the perfect match for your pet</div>
+              </div>
+            </div>
+            <div className="hidden sm:flex items-center gap-2 text-gray-600">
+              <MapPin size={16}/> Nearby • Global demo
             </div>
           </div>
-          <div className="flex items-center gap-2 text-gray-600">
-            <MapPin size={16}/> Nearby • Global demo
-          </div>
+          <Toolbar species={species} setSpecies={setSpecies} onOpenNew={()=>setShowAdd(true)} onOpenFilters={()=>setMobileFiltersOpen(true)}/>
         </header>
 
-        <div className="space-y-4">
-          <Toolbar species={species} setSpecies={setSpecies} onOpenNew={()=>setShowAdd(true)} onOpenFilters={()=>{}}/>
-          <div className="p-4 rounded-xl bg-white/60 border border-emerald-100">
-            <FiltersBar filters={filters} setFilters={setFilters} onApply={applyFilters} />
-          </div>
+        {/* Desktop filters bar */}
+        <div className="hidden sm:block p-4 mt-4 rounded-xl bg-white/60 border border-emerald-100">
+          <FiltersBar filters={filters} setFilters={setFilters} onApply={applyFilters} />
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-2">
-            <div className="md:col-span-2 space-y-4">
+        {/* Mobile tab content */}
+        <div className="sm:hidden mt-4">
+          {tab==='browse' && (
+            <div className="space-y-4">
               {pets.length ? pets.map(p => (
                 <SwipeCard key={p.id} pet={p} onLike={()=>swipe(p, 'like')} onPass={()=>swipe(p, 'pass')} />
               )) : (
                 <div className="h-64 rounded-2xl bg-white border border-dashed border-emerald-200 flex items-center justify-center text-gray-500">No pets found. Adjust filters or add your pet.</div>
               )}
             </div>
-            <div>
-              <Sidebar matches={matches} onOpenChat={(m)=>{ setActiveMatch(m); setShowChat(true) }} announcements={announcements} />
-            </div>
+          )}
+          {tab==='matches' && <MobileMatches/>}
+          {tab==='announcements' && <MobileAnnouncements/>}
+        </div>
+
+        {/* Desktop grid with sidebar */}
+        <div className="hidden sm:grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <div className="md:col-span-2 space-y-4">
+            {pets.length ? pets.map(p => (
+              <SwipeCard key={p.id} pet={p} onLike={()=>swipe(p, 'like')} onPass={()=>swipe(p, 'pass')} />
+            )) : (
+              <div className="h-64 rounded-2xl bg-white border border-dashed border-emerald-200 flex items-center justify-center text-gray-500">No pets found. Adjust filters or add your pet.</div>
+            )}
+          </div>
+          <div>
+            <Sidebar matches={matches} onOpenChat={(m)=>{ setActiveMatch(m); setShowChat(true) }} announcements={announcements} />
           </div>
         </div>
       </div>
+
+      {/* Floating Add button (mobile) */}
+      <button onClick={()=>setShowAdd(true)} className="sm:hidden fixed bottom-20 right-4 h-14 w-14 rounded-full bg-emerald-500 text-white shadow-lg flex items-center justify-center active:scale-95">
+        <Plus />
+      </button>
+
+      <BottomNav active={tab} setActive={setTab} onOpenFilters={()=>setMobileFiltersOpen(true)} />
+
+      <MobileFiltersSheet open={mobileFiltersOpen} onClose={()=>setMobileFiltersOpen(false)} filters={filters} setFilters={setFilters} onApply={applyFilters} />
 
       <AddPetModal open={showAdd} onClose={()=>setShowAdd(false)} ownerId={owner?.id} species={species} onCreate={async (payload)=>{
         await api.post('/pets', payload)

@@ -3,7 +3,55 @@
 > vite
 
 
-  VITE v5.4.20  ready in 288 ms
+  VITE v5.4.20  ready in 339 ms
 
   ➜  Local:   http://localhost:3000/
   ➜  Network: http://172.20.3.28:3000/
+6:20:35 PM [vite] Pre-transform error: Transform failed with 1 error:
+/home/workspace/src/App.jsx:262:146: ERROR: Expected ")" but found "}"
+6:20:36 PM [vite] Internal server error: Transform failed with 1 error:
+/home/workspace/src/App.jsx:262:146: ERROR: Expected ")" but found "}"
+  Plugin: vite:esbuild
+  File: /home/workspace/src/App.jsx:262:146
+  
+  Expected ")" but found "}"
+  260|  
+  261|    const loadPets = async (currentFilters=filters, s=species) => {
+  262|      const params = new URLSearchParams({ species: s, ...Object.fromEntries(Object.entries(currentFilters).filter(([,v])=>v!==undefined && v!=='') }) )
+     |                                                                                                                                                    ^
+  263|      const data = await api.get(`/pets?${params.toString()}`)
+  264|      setPets(data)
+  
+      at failureErrorWithLog (/home/workspace/node_modules/esbuild/lib/main.js:1472:15)
+      at /home/workspace/node_modules/esbuild/lib/main.js:755:50
+      at responseCallbacks.<computed> (/home/workspace/node_modules/esbuild/lib/main.js:622:9)
+      at handleIncomingPacket (/home/workspace/node_modules/esbuild/lib/main.js:677:12)
+      at Socket.readFromStdout (/home/workspace/node_modules/esbuild/lib/main.js:600:7)
+      at Socket.emit (node:events:508:28)
+      at addChunk (node:internal/streams/readable:559:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+      at Readable.push (node:internal/streams/readable:390:5)
+      at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+6:20:41 PM [vite] Internal server error: Transform failed with 1 error:
+/home/workspace/src/App.jsx:262:146: ERROR: Expected ")" but found "}"
+  Plugin: vite:esbuild
+  File: /home/workspace/src/App.jsx:262:146
+  
+  Expected ")" but found "}"
+  260|  
+  261|    const loadPets = async (currentFilters=filters, s=species) => {
+  262|      const params = new URLSearchParams({ species: s, ...Object.fromEntries(Object.entries(currentFilters).filter(([,v])=>v!==undefined && v!=='') }) )
+     |                                                                                                                                                    ^
+  263|      const data = await api.get(`/pets?${params.toString()}`)
+  264|      setPets(data)
+  
+      at failureErrorWithLog (/home/workspace/node_modules/esbuild/lib/main.js:1472:15)
+      at /home/workspace/node_modules/esbuild/lib/main.js:755:50
+      at responseCallbacks.<computed> (/home/workspace/node_modules/esbuild/lib/main.js:622:9)
+      at handleIncomingPacket (/home/workspace/node_modules/esbuild/lib/main.js:677:12)
+      at Socket.readFromStdout (/home/workspace/node_modules/esbuild/lib/main.js:600:7)
+      at Socket.emit (node:events:508:28)
+      at addChunk (node:internal/streams/readable:559:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+      at Readable.push (node:internal/streams/readable:390:5)
+      at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
